@@ -15,13 +15,13 @@ public class Ingredient {
 
     @ManyToOne
     @JoinColumn(name = "cocktails_cocktail_id")
-    private cocktails cocktails;
+    private Cocktails cocktails;
 
-    public model.cocktails getCocktails() {
+    public Cocktails getCocktails() {
         return cocktails;
     }
 
-    public void setCocktails(model.cocktails cocktails) {
+    public void setCocktails(Cocktails cocktails) {
         this.cocktails = cocktails;
     }
 
