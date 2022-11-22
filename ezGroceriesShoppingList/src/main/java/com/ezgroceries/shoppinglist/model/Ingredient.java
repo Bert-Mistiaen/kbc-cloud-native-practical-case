@@ -1,4 +1,4 @@
-package model;
+package com.ezgroceries.shoppinglist.model;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -15,14 +15,14 @@ public class Ingredient {
 
     @ManyToOne
     @JoinColumn(name = "cocktails_cocktail_id")
-    private Cocktails cocktails;
+    private Cocktail cocktail;
 
-    public Cocktails getCocktails() {
-        return cocktails;
+    public Cocktail getCocktails() {
+        return cocktail;
     }
 
-    public void setCocktails(Cocktails cocktails) {
-        this.cocktails = cocktails;
+    public void setCocktails(Cocktail cocktail) {
+        this.cocktail = cocktail;
     }
 
     public Ingredient() {}

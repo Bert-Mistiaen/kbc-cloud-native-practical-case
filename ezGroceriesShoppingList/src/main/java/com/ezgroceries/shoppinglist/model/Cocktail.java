@@ -1,4 +1,4 @@
-package model;
+package com.ezgroceries.shoppinglist.model;
 
 
 import lombok.Getter;
@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
-public class Cocktails {
+public class Cocktail {
 
        @Id
        @Column(name= "cocktailId")
@@ -35,7 +35,7 @@ public class Cocktails {
        @Setter
        private String[] ingredients;
 
-       public Cocktails(){
+       public Cocktail(){
 
        }
 

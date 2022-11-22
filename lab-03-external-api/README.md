@@ -68,7 +68,7 @@ public class EzGroceriesShoppingListApplication {
 }
 ```
 
-### Search cocktails
+### Search cocktail
 Study the response of the search cocktail API:
 
 Request: ``GET https://www.thecocktaildb.com/api/json/v1/1/search.php?s=margarita``
@@ -145,7 +145,7 @@ transforming their responses into our responses.
 
 After this implementation, the below example request to our API should be up and running:
 
-Request: ``GET localhost:8080/cocktails?search=russian``
+Request: ``GET localhost:8080/cocktail?search=russian``
 
 Response:
 

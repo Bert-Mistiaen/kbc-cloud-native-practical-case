@@ -11,12 +11,12 @@ Other technical decisions that were taken during the design include:
 
 # Cocktail API
 These are the requirements for the endpoint:
-* HTTP GET ``/cocktails``
+* HTTP GET ``/cocktail``
 * it must support a request parameter named ``search`` which accepts a ``String`` value. This parameter acts as a filter
-  to limit the number of returned cocktails
+  to limit the number of returned cocktail
 * it must return the cocktail resource(s) in ``json`` format
 
-Sample request: ``GET http://localhost:8080/cocktails?search=Russian``
+Sample request: ``GET http://localhost:8080/cocktail?search=Russian``
 
 Return code: ``200 OK``
 
@@ -54,7 +54,7 @@ Sample response:
 
 Guidelines for getting started:
 * create a Spring REST controller and map it to the correct endpoint
-* create a method to return the list of cocktails, map it to the ``GET`` HTTP method. Don't forget to declare the ``search`` request parameter.
+* create a method to return the list of cocktail, map it to the ``GET`` HTTP method. Don't forget to declare the ``search`` request parameter.
 * hard-code the 2 cocktail resources from the above sample and return them from the method you just declared
 * add logging to your method by declaring an ``org.slf4j.Logger`` in your controller:
 ```java
@@ -62,7 +62,7 @@ private static final Logger log = LoggerFactory.getLogger(MyController.class);
 ```
 or use [Project Lombok](https://projectlombok.org/) if you prefer.
 
-Verification: navigate to http://localhost:8080/cocktails?search=Russian and compare the response to the above sample. It must match exactly.
+Verification: navigate to http://localhost:8080/cocktail?search=Russian and compare the response to the above sample. It must match exactly.
 
 # Shopping List API
 ## Create a new Shopping List
@@ -86,7 +86,7 @@ Verification: use ``Postman`` to create a new shopping list.
 ## Add Cocktail to Shopping List
 This API call links a previously created ``Cocktail`` resource to the ``ShoppingList`` resource.
 
-Request: ``POST http://localhost:8080/shopping-lists/{shoppingListId}/cocktails``
+Request: ``POST http://localhost:8080/shopping-lists/{shoppingListId}/cocktail``
 
 Request body (json):
 
@@ -104,7 +104,7 @@ Response body: empty
 
 ## Get Shopping List
 This method will provide the main (currently still very simple) functionality of our API, it will return a distinct set
-of ingredients derived from all the cocktails that have been added to this shopping list.
+of ingredients derived from all the cocktail that have been added to this shopping list.
 
 **NOTE**: we currently only return some dummy generated data, just focus on getting the contract right.
 

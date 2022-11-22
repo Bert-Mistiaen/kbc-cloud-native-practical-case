@@ -85,10 +85,10 @@ A very important change to our application involves the on-the-fly persisting of
 we don't want to store all the attributes, we just want to assign a UUID for every unique Cocktail and persist this to
 our database.
 
-### Search cocktails
+### Search cocktail
 Refactor our current implementation:
 
-* map all the returned cocktails from the ``CocktailDBClient`` using their ``idDrink`` attributes to
+* map all the returned cocktail from the ``CocktailDBClient`` using their ``idDrink`` attributes to
   our ``CocktailEntity`` instances
 * if we don't have it in our database, persist it
 
@@ -136,7 +136,7 @@ appropriate service layer method. Replace the dummy response resources with the 
 ### Add Cocktails to Shopping List
 
 Replace the dummy resources and provide a real persistence implementation. This will include a service layer that will
-take care of linking cocktails with a specific shopping list.
+take care of linking cocktail with a specific shopping list.
 
 ### Get a Shopping List
 
