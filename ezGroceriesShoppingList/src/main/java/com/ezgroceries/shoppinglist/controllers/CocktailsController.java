@@ -5,25 +5,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import com.ezgroceries.shoppinglist.service.CocktailsService;
+import com.ezgroceries.shoppinglist.service.CocktailService;
 
 import java.util.Set;
 
 @RestController
 public class CocktailsController {
     private static final Logger log = LoggerFactory.getLogger(CocktailsController.class);
-    private CocktailsService cocktailsService;
+    private CocktailService cocktailService;
 
-    @Autowired
-    public CocktailsController(CocktailsService cocktailsService){
-        this.cocktailsService = cocktailsService;
+    public CocktailsController(CocktailService cocktailService){
+        this.cocktailService = cocktailService;
     }
 
     @GetMapping("/cocktails")
     public Set<Cocktail> getCocktails(@RequestParam("search") String search) {
-        cocktailsService.setCocktailsList();
+        cocktailService.setCocktailsList();
         log.info("about to return search result");
-        return cocktailsService.getCocktailsList(search);
+        return cocktailService.getCocktailsList(search);
      }
 
 

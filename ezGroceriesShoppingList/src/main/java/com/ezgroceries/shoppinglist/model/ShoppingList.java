@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -20,11 +19,11 @@ public class ShoppingList {
     @Setter
     private String name;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "cocktailId", referencedColumnName = "cocktailId")
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "cocktailsId")
     @Getter
     @Setter
-    private Set<Cocktail> cocktails;
+    private Cocktail cocktails;
 
 
     public ShoppingList(){

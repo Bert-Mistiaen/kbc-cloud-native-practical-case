@@ -1,17 +1,16 @@
 package com.ezgroceries.shoppinglist.model;
 
-
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
 public class Cocktail {
 
        @Id
-       @Column(name= "cocktailId")
        @GeneratedValue(generator = "custom-uuid")
        @Setter
        @Getter
@@ -40,5 +39,9 @@ public class Cocktail {
        }
 
 
+       @OneToMany(mappedBy = "cocktails")
+       @Getter
+       @Setter
+       private Set<ShoppingList> shoppingList;
 
 }

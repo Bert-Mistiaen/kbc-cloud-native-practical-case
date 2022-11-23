@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Repository
-public interface CocktailsRepository extends CrudRepository<Cocktail, UUID>
+public interface CocktailRepository extends CrudRepository<Cocktail, UUID>
 {
     Set<Cocktail> findAll();
 
