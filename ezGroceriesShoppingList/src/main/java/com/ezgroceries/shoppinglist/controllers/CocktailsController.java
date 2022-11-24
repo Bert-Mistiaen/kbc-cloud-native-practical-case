@@ -1,9 +1,8 @@
 package com.ezgroceries.shoppinglist.controllers;
 
-import com.ezgroceries.shoppinglist.model.Cocktail;
+import com.ezgroceries.shoppinglist.model.Cocktails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.ezgroceries.shoppinglist.service.CocktailService;
 
@@ -19,11 +18,13 @@ public class CocktailsController {
     }
 
     @GetMapping("/cocktails")
-    public Set<Cocktail> getCocktails(@RequestParam("search") String search) {
+    public Set<Cocktails> getCocktails(@RequestParam("search") String search) {
         cocktailService.setCocktailsList();
         log.info("about to return search result");
         return cocktailService.getCocktailsList(search);
      }
+
+
 
 
 }

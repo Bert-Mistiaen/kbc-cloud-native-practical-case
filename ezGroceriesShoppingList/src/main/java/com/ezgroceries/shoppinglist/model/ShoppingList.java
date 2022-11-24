@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -19,16 +20,30 @@ public class ShoppingList {
     @Setter
     private String name;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "cocktailsId")
+    public Set<Cocktails> getCocktails() {
+        return cocktails;
+    }
+
+    public void setCocktails(Set<Cocktails> cocktails) {
+        this.cocktails = cocktails;
+    }
+
+    @ManyToMany
+    @JoinTable(name = "shopppingLists_cocktails", joinColumns = { @JoinColumn(name = "shoppingListId")},
+    inverseJoinColumns = {@JoinColumn(name = "cocktailId")})
     @Getter
     @Setter
-    private Cocktail cocktails;
+    private Set<Cocktails> cocktails;
 
 
     public ShoppingList(){
 
     };
+
+    public ShoppingList(String name) {
+
+        this.name = name;
+    }
 
 
 }

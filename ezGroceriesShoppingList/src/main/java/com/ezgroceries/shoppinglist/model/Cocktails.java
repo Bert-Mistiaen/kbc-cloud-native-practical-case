@@ -4,11 +4,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
 @Entity
-public class Cocktail {
+public class Cocktails {
 
        @Id
        @GeneratedValue(generator = "custom-uuid")
@@ -34,14 +35,23 @@ public class Cocktail {
        @Setter
        private String[] ingredients;
 
-       public Cocktail(){
+       public Cocktails(){
 
        }
 
-
-       @OneToMany(mappedBy = "cocktails")
+       @ManyToMany(mappedBy = "cocktails")
        @Getter
        @Setter
-       private Set<ShoppingList> shoppingList;
+       private Set<ShoppingList> shoppingLists;
 
+       public Cocktails(UUID cocktailId, String name, String glass, String instructions, String image, String[] ingredients)
+       {
+              this.cocktailId = cocktailId;
+              this.name = name;
+              this.glass = glass;
+              this.instructions = instructions;
+              this.image = image;
+              this.ingredients = ingredients;
+
+       }
 }

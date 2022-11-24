@@ -4,6 +4,9 @@ import com.ezgroceries.shoppinglist.model.ShoppingList;
 import com.ezgroceries.shoppinglist.repository.ShoppingListRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+import java.util.UUID;
+
 @Service
 public class ShoppingListService {
     private final ShoppingListRepository shoppingListRepository;
@@ -20,4 +23,11 @@ public class ShoppingListService {
     }
 
 
+    public Optional<ShoppingList> getShoppingList(UUID shoppingListId) {
+        return shoppingListRepository.findById(shoppingListId);
+    }
+
+    public void save(ShoppingList shoppingList) {
+        shoppingListRepository.save(shoppingList);
+    }
 }

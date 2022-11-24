@@ -8,7 +8,5 @@ import java.util.UUID;
 
 @Repository
 public interface ShoppingListRepository extends CrudRepository<ShoppingList, UUID> {
-
-
     ShoppingList save(ShoppingList shoppingList);
 }
