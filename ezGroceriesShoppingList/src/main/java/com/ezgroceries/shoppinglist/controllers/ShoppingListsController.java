@@ -2,6 +2,7 @@ package com.ezgroceries.shoppinglist.controllers;
 
 import com.ezgroceries.shoppinglist.model.Cocktails;
 import com.ezgroceries.shoppinglist.model.ShoppingList;
+import com.ezgroceries.shoppinglist.model.ShoppingListOut;
 import com.ezgroceries.shoppinglist.service.CocktailService;
 import com.ezgroceries.shoppinglist.service.ShoppingListService;
 import org.hibernate.cache.spi.SecondLevelCacheLogger_$logger;
@@ -11,10 +12,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.swing.*;
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 
 @RestController
 public class ShoppingListsController {
@@ -23,6 +26,7 @@ public class ShoppingListsController {
     private ShoppingListService shoppingListService;
     private CocktailService cocktailService;
     private ShoppingList sl;
+    private ShoppingList sl1;
     private Cocktails c;
 
     public ShoppingListsController(ShoppingListService shoppingListService, CocktailService cocktailService){
@@ -50,6 +54,7 @@ public class ShoppingListsController {
         UUID cocktailId = UUID.fromString(strCocktailId);
         UUID shoppingListId = UUID.fromString(strShoppingListId);
 
+
         Optional<ShoppingList> shoppingList = shoppingListService.getShoppingList(shoppingListId);
         shoppingList.ifPresent(theS -> {
             sl = theS;
@@ -70,6 +75,28 @@ public class ShoppingListsController {
                 .toUri();
 
         return ResponseEntity.created(location).build();
+    }
+
+    @GetMapping("/shopping-lists/{strShoppingListId}")
+    public ShoppingListOut getShoppingList(@PathVariable String strShoppingListId){
+        UUID shoppingListId = UUID.fromString(strShoppingListId);
+
+        Optional<ShoppingList> shoppingList = shoppingListService.getShoppingList(shoppingListId);
+        shoppingList.ifPresent(theS -> {
+            sl1 = theS;
+        });
+
+        Set<String> ingredients = null;
+        for (Cocktails cocktail :sl1.getCocktails()){
+            String[] ingrIn = cocktail.getIngredients();
+            for (String oneIngr : ingrIn){
+               ingredients.add(oneIngr);
+            }
+        }
+
+        ShoppingListOut slOut = new ShoppingListOut(sl1.getShoppingListId(), sl1.getName(), ingredients);
+
+        return slOut;
     }
 
 }
