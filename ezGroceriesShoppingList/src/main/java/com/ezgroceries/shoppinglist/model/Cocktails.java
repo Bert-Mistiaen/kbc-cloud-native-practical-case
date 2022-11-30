@@ -2,6 +2,7 @@ package com.ezgroceries.shoppinglist.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.List;
@@ -12,10 +13,12 @@ import java.util.UUID;
 public class Cocktails {
 
        @Id
-       @GeneratedValue(generator = "custom-uuid")
+       @GenericGenerator(name="uuid2", strategy = "uuid2")
+       @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "uuid2")
+       @Column(length = 36, nullable = false, updatable = false)
        @Setter
        @Getter
-       private UUID cocktailId;
+       private String cocktailId;
 
        @Getter
        @Setter
@@ -44,7 +47,7 @@ public class Cocktails {
        @Setter
        private Set<ShoppingList> shoppingLists;
 
-       public Cocktails(UUID cocktailId, String name, String glass, String instructions, String image, String[] ingredients)
+       public Cocktails(String cocktailId, String name, String glass, String instructions, String image, String[] ingredients)
        {
               this.cocktailId = cocktailId;
               this.name = name;

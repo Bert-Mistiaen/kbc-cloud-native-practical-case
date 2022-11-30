@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface ShoppingListRepository extends CrudRepository<ShoppingList, UUID> {
+public interface ShoppingListRepository extends CrudRepository<ShoppingList, String> {
     ShoppingList save(ShoppingList shoppingList);
 }

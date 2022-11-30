@@ -51,22 +51,28 @@ public class ShoppingListsController {
     @PostMapping("/shopping-lists/{strShoppingListId}/cocktail")
     public ResponseEntity<Void> addCocktail(@PathVariable String strShoppingListId, @RequestBody String strCocktailId) {
         log.info("adding cocktail to shopping list");
-        UUID cocktailId = UUID.fromString(strCocktailId);
-        UUID shoppingListId = UUID.fromString(strShoppingListId);
 
-
-        Optional<ShoppingList> shoppingList = shoppingListService.getShoppingList(shoppingListId);
-        shoppingList.ifPresent(theS -> {
+        Optional<ShoppingList> shoppingList = shoppingListService.getShoppingList(strShoppingListId);
+        shoppingList.ifPresentOrElse(theS -> {
             sl = theS;
-        });
+            log.info("--- found shoppinglist ---");
+        },
+                ()-> {
+                    log.info("no shoppinglist found");
+                });
 
-        Optional<Cocktails> cocktail = cocktailService.getCocktail(cocktailId);
-        cocktail.ifPresent(theC -> {
+
+        Optional<Cocktails> cocktail = cocktailService.getCocktail(strCocktailId);
+        cocktail.ifPresentOrElse(theC -> {
+            sl.getCocktails().add(theC);
+            shoppingListService.save(sl);
+            log.info("saved cocktail to shoppinglist");
             c = theC;
-        });
 
-        sl.getCocktails().add(c);
-        shoppingListService.save(sl);
+        },
+                () -> {
+                    log.info("no cocktail found in table");
+                });
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequestUri()
@@ -75,13 +81,16 @@ public class ShoppingListsController {
                 .toUri();
 
         return ResponseEntity.created(location).build();
+
+
+
     }
 
     @GetMapping("/shopping-lists/{strShoppingListId}")
     public ShoppingListOut getShoppingList(@PathVariable String strShoppingListId){
-        UUID shoppingListId = UUID.fromString(strShoppingListId);
 
-        Optional<ShoppingList> shoppingList = shoppingListService.getShoppingList(shoppingListId);
+
+        Optional<ShoppingList> shoppingList = shoppingListService.getShoppingList(strShoppingListId);
         shoppingList.ifPresent(theS -> {
             sl1 = theS;
         });
@@ -93,7 +102,6 @@ public class ShoppingListsController {
                ingredients.add(oneIngr);
             }
         }
-
         ShoppingListOut slOut = new ShoppingListOut(sl1.getShoppingListId(), sl1.getName(), ingredients);
 
         return slOut;

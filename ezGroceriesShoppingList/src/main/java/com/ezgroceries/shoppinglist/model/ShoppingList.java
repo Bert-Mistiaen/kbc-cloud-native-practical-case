@@ -2,6 +2,7 @@ package com.ezgroceries.shoppinglist.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -10,11 +11,12 @@ import java.util.UUID;
 @Entity
 public class ShoppingList {
     @Id
-    @GeneratedValue(generator = "custom-uuid")
-    @Column(name = "shopping_list_id", nullable = false)
+    @GenericGenerator(name="uuid2", strategy = "uuid2")
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "uuid2")
+    @Column(name = "shopping_list_id", length = 36, nullable = false, updatable = false)
     @Getter
     @Setter
-    private UUID shoppingListId;
+    private String shoppingListId;
 
     @Getter
     @Setter

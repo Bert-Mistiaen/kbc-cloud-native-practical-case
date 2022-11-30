@@ -5,10 +5,9 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Set;
-import java.util.UUID;
 
 @Repository
-public interface CocktailRepository extends CrudRepository<Cocktails, UUID>
+public interface CocktailRepository extends CrudRepository<Cocktails, String>
 {
     Set<Cocktails> findAll();
 

@@ -23,7 +23,7 @@ public class ShoppingListService {
     }
 
 
-    public Optional<ShoppingList> getShoppingList(UUID shoppingListId) {
+    public Optional<ShoppingList> getShoppingList(String shoppingListId) {
         return shoppingListRepository.findById(shoppingListId);
     }
 

@@ -31,7 +31,7 @@ public class CocktailService {
     public void setCocktailsList()
     {
         Cocktails c = new Cocktails();
-        c.setCocktailId(UUID.fromString("23b3d85a-3928-41c0-a533-6538a71e17c4"));
+        //c.setCocktailId(UUID.randomUUID());
         c.setName("Margerita");
         c.setGlass("Cocktail glass");
         c.setInstructions("Rub the rim of the glass with the lime slice to make the salt stick to it. Take care to moisten..");
@@ -41,7 +41,7 @@ public class CocktailService {
         cocktailRepository.save(c);
 
         Cocktails d = new Cocktails();
-        d.setCocktailId(UUID.fromString("d615ec78-fe93-467b-8d26-5d26d8eab073"));
+        //d.setCocktailId(UUID.fromString("d615ec78-fe93-467b-8d26-5d26d8eab073"));
         d.setName("Blue Margerita");
         d.setGlass("Cocktail glass");
         d.setInstructions("Rub rim of cocktail glass with lime juice. Dip rim in coarse salt..");
@@ -54,7 +54,7 @@ public class CocktailService {
 
     }
 
-    public Optional<Cocktails> getCocktail(UUID cocktailId) {
+    public Optional<Cocktails> getCocktail(String cocktailId) {
         return cocktailRepository.findById(cocktailId);
     }
 }
