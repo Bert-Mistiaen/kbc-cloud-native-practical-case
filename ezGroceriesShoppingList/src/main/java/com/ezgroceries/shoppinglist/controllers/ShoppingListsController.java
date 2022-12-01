@@ -13,10 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 @RestController
@@ -87,7 +84,7 @@ public class ShoppingListsController {
     }
 
     @GetMapping("/shopping-lists/{strShoppingListId}")
-    public ShoppingListOut getShoppingList(@PathVariable String strShoppingListId){
+    public ShoppingListOut getOneShoppingList(@PathVariable String strShoppingListId){
 
 
         Optional<ShoppingList> shoppingList = shoppingListService.getShoppingList(strShoppingListId);
@@ -95,9 +92,11 @@ public class ShoppingListsController {
             sl1 = theS;
         });
 
-        Set<String> ingredients = null;
+        Set<String> ingredients = new HashSet<>() {
+        };
         for (Cocktails cocktail :sl1.getCocktails()){
             String[] ingrIn = cocktail.getIngredients();
+
             for (String oneIngr : ingrIn){
                ingredients.add(oneIngr);
             }
@@ -107,4 +106,31 @@ public class ShoppingListsController {
         return slOut;
     }
 
+    @GetMapping("/shopping-lists")
+    public List<ShoppingListOut> getShoppingLists(){
+
+
+        List<ShoppingList> shoppingLists = shoppingListService.getShoppingList();
+        List<ShoppingListOut> listSlOut = new ArrayList<>();
+        
+
+        for (ShoppingList oneSl :shoppingLists) {
+            Set<String> ingredients = new HashSet<>() {
+            };
+            for (Cocktails cocktail : oneSl.getCocktails()) {
+                String[] ingrIn = cocktail.getIngredients();
+
+                for (String oneIngr : ingrIn) {
+                    ingredients.add(oneIngr);
+                }
+            }
+            ShoppingListOut slOut = new ShoppingListOut(oneSl.getShoppingListId(), oneSl.getName(), ingredients);
+            listSlOut.add(slOut);
+        }
+        
+
+        return listSlOut;
+    }
+    
+    
 }

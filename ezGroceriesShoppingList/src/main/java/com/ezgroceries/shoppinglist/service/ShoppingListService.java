@@ -4,8 +4,8 @@ import com.ezgroceries.shoppinglist.model.ShoppingList;
 import com.ezgroceries.shoppinglist.repository.ShoppingListRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class ShoppingListService {
@@ -29,5 +29,9 @@ public class ShoppingListService {
 
     public void save(ShoppingList shoppingList) {
         shoppingListRepository.save(shoppingList);
+    }
+
+    public List<ShoppingList> getShoppingList() {
+        return (List<ShoppingList>) shoppingListRepository.findAll();
     }
 }
