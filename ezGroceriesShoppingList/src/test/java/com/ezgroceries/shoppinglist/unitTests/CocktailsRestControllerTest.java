@@ -8,10 +8,9 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
@@ -21,7 +20,6 @@ import java.util.Set;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-
 
 @WebMvcTest(controllers = CocktailsController.class)
 public class CocktailsRestControllerTest {
@@ -41,7 +39,9 @@ public class CocktailsRestControllerTest {
 
         mockMvc.perform(get("/getCocktails"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].name", Matchers.is("testCocktail1")));
+                .andExpect(jsonPath("$[0].name", Matchers.is("testCocktail1")))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+
 
     }
 
