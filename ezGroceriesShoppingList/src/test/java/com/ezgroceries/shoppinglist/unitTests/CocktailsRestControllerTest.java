@@ -12,12 +12,18 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.RequestBuilder;
+import org.springframework.test.web.servlet.ResultMatcher;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static org.assertj.core.internal.bytebuddy.implementation.FixedValue.value;
+import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
+import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
@@ -32,30 +38,30 @@ public class CocktailsRestControllerTest {
 
     @Test
     public void testGetCocktails() throws Exception {
-        Cocktails coctail = new Cocktails("testCocktail1","normal","pour and drink","", new String[]{"salt","gin"});
-        List<Cocktails> cocktails = Arrays.asList(coctail);
+        Cocktails cocktail = new Cocktails("testCocktail1","normal","pour and drink","", new String[]{"salt","gin"});
+        List<Cocktails> cocktails = Arrays.asList(cocktail);
 
         Mockito.when(cocktailService.getAllCocktails()).thenReturn(cocktails);
 
         mockMvc.perform(get("/getCocktails"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].name", Matchers.is("testCocktail1")))
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
-
-
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$[0].name", Matchers.is("testCocktail1")));
     }
 
     @Test
     public void testCocktails() throws Exception {
-        Cocktails coctail = new Cocktails("testCocktail1","normal","pour and drink","", new String[]{"salt","gin"});
-        Set<Cocktails> cocktails = new HashSet<Cocktails>();
-        cocktails.add(coctail);
+        Cocktails cocktail = new Cocktails("Russian Tequila","normal","pour and drink","", new String[]{"salt","gin"});
+        Set<Cocktails> cocktails = new HashSet<>();
+        cocktails.add(cocktail);
 
-        Mockito.when(cocktailService.getCocktailsListByNameLike("test")).thenReturn(cocktails);
+        given(cocktailService.getCocktailsOpenFeign("Russian")).willReturn(cocktails);
 
-        mockMvc.perform(get("/cocktails").param("search", "test"))
+        mockMvc.perform(get("/cocktails")
+                .param("search", "Russian")
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].name", Matchers.is("testCocktail1")));
+                .andExpect(jsonPath("$[0].name").value(cocktail.getName()));
 
     }
 

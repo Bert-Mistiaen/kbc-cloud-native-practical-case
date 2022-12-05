@@ -1,6 +1,8 @@
 package com.ezgroceries.shoppinglist.service;
 
+import com.ezgroceries.shoppinglist.controllers.CocktailDBClient;
 import com.ezgroceries.shoppinglist.controllers.CocktailsController;
+import com.ezgroceries.shoppinglist.model.CocktailDBResponse;
 import com.ezgroceries.shoppinglist.model.Cocktails;
 import com.ezgroceries.shoppinglist.repository.CocktailRepository;
 import org.slf4j.Logger;
@@ -13,10 +15,14 @@ import java.util.*;
 public class CocktailService {
 
     private static final Logger log = LoggerFactory.getLogger(CocktailsController.class);
+    private CocktailDBClient cocktailDBClient;
     private CocktailRepository cocktailRepository;
-
-    public CocktailService(CocktailRepository cocktailRepository){
+    public CocktailService(CocktailRepository cocktailRepository, CocktailDBClient cocktailDBClient){
         this.cocktailRepository = cocktailRepository;
+        this.cocktailDBClient = cocktailDBClient;
+    }
+
+    public CocktailService() {
 
     }
 
@@ -24,11 +30,11 @@ public class CocktailService {
         cocktailRepository.save(c);
     }
 
-    public Set<Cocktails> getCocktailsList(String search) {
-        return cocktailRepository.findAll();
+    public Set<Cocktails> getCocktailsListByNameStartsWith(String search) {
+        return cocktailRepository.findByNameStartsWith(search);
     }
 
-    public void setCocktailsList()
+    /*public void setCocktailsList()
     {
         Cocktails c = new Cocktails();
         //c.setCocktailId(UUID.randomUUID());
@@ -49,12 +55,32 @@ public class CocktailService {
         String[] ingrD = new String[]{"Tequila", "Blue Curacao", "Lime juice", "Salt"};
         d.setIngredients(ingrD);
         cocktailRepository.save(d);
-
-
-
-    }
+    } */
 
     public Optional<Cocktails> getCocktail(String cocktailId) {
         return cocktailRepository.findById(cocktailId);
+    }
+
+    public List<Cocktails> getAllCocktails() {
+        return (List<Cocktails>) cocktailRepository.findAll();
+
+    }
+
+    public Set<Cocktails> getCocktailsOpenFeign(String search){
+
+        CocktailDBResponse cocktailDBResponse = cocktailDBClient.searchCocktails(search);
+        Set<Cocktails> respCocktails = new HashSet<>();
+        for (CocktailDBResponse.DrinkResource foundDrink: cocktailDBResponse.getDrinks()) {
+
+            String[] ingredients = new String[3];
+            ingredients[0] = foundDrink.getStrIngredient1();
+            ingredients[1] = foundDrink.getStrIngredient2();
+            ingredients[2] = foundDrink.getStrIngredient3();
+
+            //public Cocktails(String name, String glass, String instructions, String image, String[] ingredients)
+            Cocktails cocktail = new Cocktails(foundDrink.getStrDrink(), foundDrink.getStrGlass(), foundDrink.getStrInstructions(), foundDrink.getStrDrinkThumb(), ingredients);
+            respCocktails.add(cocktail);
+        }
+        return respCocktails;
     }
 }

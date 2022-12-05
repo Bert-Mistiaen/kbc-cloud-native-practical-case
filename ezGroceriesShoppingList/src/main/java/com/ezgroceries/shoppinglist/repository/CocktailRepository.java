@@ -11,5 +11,5 @@ public interface CocktailRepository extends CrudRepository<Cocktails, String>
 {
     Set<Cocktails> findAll();
 
-
+    Set<Cocktails> findByNameStartsWith(String search);
 }

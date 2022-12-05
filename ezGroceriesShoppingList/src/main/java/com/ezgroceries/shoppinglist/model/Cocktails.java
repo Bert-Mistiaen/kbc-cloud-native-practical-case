@@ -47,9 +47,8 @@ public class Cocktails {
        @Setter
        private Set<ShoppingList> shoppingLists;
 
-       public Cocktails(String cocktailId, String name, String glass, String instructions, String image, String[] ingredients)
+       public Cocktails(String name, String glass, String instructions, String image, String[] ingredients)
        {
-              this.cocktailId = cocktailId;
               this.name = name;
               this.glass = glass;
               this.instructions = instructions;
